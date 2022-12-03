@@ -27,14 +27,14 @@
   
         </section>
         <br>
-        <br>
-        <section id ="Visualization_2">
+        <section id ="Visualization_1">
             <div class = "scatp">
                 <h3>Interactive ScatterPlot</h3>
                 <p>One of the domain questions were based on the players contributions to the team. This is a scatter chart for top 20 players with respect to the the following 3 attributes of goals scored, assists, and penalty kicks.
                     <br>
                     This can give us a quick way of seeing the distribution of players in the goal contributions, and we can also make out how many players are in the top 20 penalty kick takers that are already there in top goal scorers and assisters.
                 </p>
+                <br>
                 <button value="goals" onclick='changes(this.value)'>Goals</button>
                 <button value="assists" onclick='changes(this.value)'>Assists</button>
                 <button value="pk" onclick='changes(this.value)'>Penalty Goals</button>
@@ -42,7 +42,7 @@
               </div>
               <svg class ="svg1"></svg>
               </section>
-        <section id ="Visualization_1">
+        <section id ="Visualization_2">
             <div class = "barch">
               <h3 style="text-align: center;">Interactive Bar Chart</h3>
               <p style="text-align: center;">
@@ -51,7 +51,7 @@
                 This can be looked with the following stats,
                   <p class="svg_bar"> </p>
                   
-                      <div class="radio" onchange="select_stat()">
+                      <div class="radio">
                         <label class='radio-inline'>
                                 <input type="radio" name="stat" value="points" onclick='change(this.value)' checked> points
                               </label>
@@ -73,11 +73,12 @@
   <br><br>
       
   <br><br>
-  <section id = "Multi">
-    <h3>Multi View of the players between the top 2 teams  </h3>
-    <br>
-    <a href="compare.html"><button >Click here</button></a>
+  <section id = "Multiview">
+    <h3>Multi View of the players</h3>
+    <p class = "compare">Click here for a Multi-view of comparison between the players of the top two teams of the season</p>
+    <a href="compare.html"><button >Click here</button></a>     
     </section>
+    
 
 
       
@@ -348,15 +349,7 @@
         L.geoJSON(someFeatures, {
             onEachFeature: onEachFeature
         }).addTo(map);
-        
-        <section id = "Multiview">
-          <h3>Multi View of the players</h3>
-          <p class = "compare">Click here for a Multi-view of comparison between the top two players of the season</p>
-          <a href="compare.html"><button >Click here</button></a>
-          <div id="map"></div>
-          </section>
-          
-        
+              
         
         </script>
           <script src="help.js" defer></script>

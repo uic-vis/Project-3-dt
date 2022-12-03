@@ -1,0 +1,125 @@
+
+
+h1{
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: rgb(11, 11, 12);
+  	text-align: center;
+}
+
+h4{
+  	text-align: center;
+  	font-size: 1rem;
+	font-weight: 300;
+}
+
+*{
+	margin:  0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.linkedview {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+
+#Visualization_1{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding-top: 0.10;
+}
+
+#Visualization_2{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: normal;
+	align-items: center;
+	text-align: center;
+	padding-top: 10px;
+}
+#Visualization_3{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: normal;
+	align-items: center;
+	text-align: center;
+	padding-top: 10px;
+}
+#Multiview{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: normal;
+	align-items: center;
+	text-align: center;
+	padding-top: 10px;
+}
+
+#Spatial_viz{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: normal;
+	align-items: center;
+	text-align: center;
+	padding-top: 10px;
+}
+#Multi {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+
+.spatial_view {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+#map { height: 480px; }
+
+
+#radio{
+	justify-content: center;
+	align-items: center;
+}
+#plot {
+	position: absolute;
+	left: 72%;
+	width: 28%;
+	height: 40%; 
+}
+
+.home_div{
+	font-weight: bold; 
+	font-family: 'Times New Roman', Times, serif;
+}
+
+.svg_bar {
+    color: rgb(110, 108, 108);
+    text-align: center;
+    margin: 2em 0;
+}
+
+
+  
