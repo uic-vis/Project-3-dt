@@ -1,0 +1,286 @@
+<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta content="utf-8" http-equiv="encoding">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/colorbrewer.v1.min.js"></script> 
+    <style>
+        #teams {
+    display: flex;
+    border: 2px solid rgb(201, 29, 143);
+}
+
+#manc {
+    flex: 1;
+}  
+
+#manc:first-child {
+    margin-right: 10px;
+   
+} 
+    </style>
+      <title>Premier League Data Visualization
+      </title>
+    </head>
+    <body>    
+        <a href="index.html"><button >Home</button></a>
+    <h1> Multi View</h1>
+<p><b> What information does this give us?</b><br>
+    This multi-view bar shows us the comparison between players of the top two teams, Between Manchester City and Liverpool.
+</p>
+<br><section style = "align-items: center;">
+<button onclick="update('goals')">Goals</button>
+<button onclick="update('assists')">Assists</button>
+<button onclick="update('PKgoals')">Penalty Goals</button>
+<button onclick="update('nonPKgoals')">Non-PK Goals</button>
+<button onclick="update('expected')">Expected Goals</button>
+<button onclick="update('yellows')">Yellow Cards</button>
+<button onclick="update('reds')">Red Cards</button>
+</section>
+<br>
+<br>
+<div id="teams"><div id="manc">
+</div>
+<div id ="liv">
+</div>
+</div>
+<script>
+    var top2_data = [
+        {name: "Son Heung-min", nation: "kr KOR", position: "MFFW", squad: "Tottenham", age: "29", played: "35", goals: "23", assists: "7", nonPKgoals: "23", PKgoals: "0", expected: "15.6", nonPKexpected: "15.6", yellows: "2", reds: "0"},
+        {name: "Mohamed Salah", nation: "eg EGY", position: "FW", squad: "Liverpool", age: "29", played: "35", goals: "23", assists: "13", nonPKgoals: "18", PKgoals: "5", expected: "23.7", nonPKexpected: "18.8", yellows: "1", reds: "0"},
+];
+
+var mancity =[ {name: "Ederson", nation: "br BRA", position: "GK", squad: "Manchester City", age: "27", played: "37", goals: "0", assists: "0", nonPKgoals: "0", PKgoals: "0", expected: "0.0", nonPKexpected: "0.0", yellows: "3", reds: "0"},
+ {name: "João Cancelo", nation: "pt POR", position: "DF", squad: "Manchester City", age: "27", played: "36", goals: "1", assists: "7", nonPKgoals: "1", PKgoals: "0", expected: "5.1", nonPKexpected: "5.1", yellows: "7", reds: "0"},
+ {name: "Aymeric Laporte", nation: "es ESP", position: "DF", squad: "Manchester City", age: "27", played: "33", goals: "4", assists: "0", nonPKgoals: "4", PKgoals: "0", expected: "4.7", nonPKexpected: "4.7", yellows: "5", reds: "1"},
+ {name: "Rodri", nation: "es ESP", position: "MF", squad: "Manchester City", age: "25", played: "33", goals: "7", assists: "2", nonPKgoals: "7", PKgoals: "0", expected: "3.0", nonPKexpected: "3.0", yellows: "5", reds: "0"},
+ {name: "Bernardo Silva", nation: "pt POR", position: "MFFW", squad: "Manchester City", age: "26", played: "35", goals: "8", assists: "4", nonPKgoals: "8", PKgoals: "0", expected: "7.6", nonPKexpected: "7.6", yellows: "6", reds: "0"},
+ {name: "Rúben Dias", nation: "pt POR", position: "DF", squad: "Manchester City", age: "24", played: "29", goals: "2", assists: "4", nonPKgoals: "2", PKgoals: "0", expected: "2.7", nonPKexpected: "2.7", yellows: "5", reds: "0"},
+ {name: "Kevin De Bruyne", nation: "be BEL", position: "MF", squad: "Manchester City", age: "30", played: "30", goals: "15", assists: "8", nonPKgoals: "15", PKgoals: "0", expected: "6.2", nonPKexpected: "6.2", yellows: "2", reds: "0"},
+ {name: "Phil Foden", nation: "eng ENG", position: "FWMF", squad: "Manchester City", age: "21", played: "28", goals: "9", assists: "5", nonPKgoals: "9", PKgoals: "0", expected: "10.0", nonPKexpected: "10.0", yellows: "1", reds: "0"},
+ {name: "Raheem Sterling", nation: "eng ENG", position: "FWMF", squad: "Manchester City", age: "26", played: "30", goals: "13", assists: "5", nonPKgoals: "11", PKgoals: "2", expected: "14.4", nonPKexpected: "11.9", yellows: "1", reds: "0"},
+ {name: "Jack Grealish", nation: "eng ENG", position: "FWMF", squad: "Manchester City", age: "25", played: "26", goals: "3", assists: "3", nonPKgoals: "3", PKgoals: "0", expected: "5.9", nonPKexpected: "5.9", yellows: "3", reds: "0"},
+ {name: "Gabriel Jesus", nation: "br BRA", position: "FW", squad: "Manchester City", age: "24", played: "28", goals: "8", assists: "8", nonPKgoals: "7", PKgoals: "1", expected: "10.8", nonPKexpected: "10.0", yellows: "1", reds: "0"},
+ {name: "İlkay Gündoğan", nation: "de GER", position: "MF", squad: "Manchester City", age: "30", played: "27", goals: "8", assists: "4", nonPKgoals: "8", PKgoals: "0", expected: "10.3", nonPKexpected: "10.3", yellows: "1", reds: "0"},
+ {name: "Kyle Walker", nation: "eng ENG", position: "DF", squad: "Manchester City", age: "31", played: "20", goals: "0", assists: "2", nonPKgoals: "0", PKgoals: "0", expected: "0.4", nonPKexpected: "0.4", yellows: "1", reds: "0"},
+ {name: "Riyad Mahrez", nation: "dz ALG", position: "FWMF", squad: "Manchester City", age: "30", played: "28", goals: "11", assists: "5", nonPKgoals: "7", PKgoals: "4", expected: "11.1", nonPKexpected: "7.1", yellows: "0", reds: "0"},
+ {name: "John Stones", nation: "eng ENG", position: "DF", squad: "Manchester City", age: "27", played: "14", goals: "1", assists: "0", nonPKgoals: "1", PKgoals: "0", expected: "1.1", nonPKexpected: "1.1", yellows: "0", reds: "0"},
+ {name: "Nathan Aké", nation: "nl NED", position: "DF", squad: "Manchester City", age: "26", played: "14", goals: "2", assists: "0", nonPKgoals: "2", PKgoals: "0", expected: "0.7", nonPKexpected: "0.7", yellows: "0", reds: "0"},
+ {name: "Fernandinho", nation: "br BRA", position: "MFDF", squad: "Manchester City", age: "36", played: "19", goals: "2", assists: "1", nonPKgoals: "2", PKgoals: "0", expected: "1.8", nonPKexpected: "1.8", yellows: "1", reds: "0"},
+ {name: "Oleksandr Zinchenko", nation: "ua UKR", position: "DF", squad: "Manchester City", age: "24", played: "15", goals: "0", assists: "4", nonPKgoals: "0", PKgoals: "0", expected: "0.6", nonPKexpected: "0.6", yellows: "0", reds: "0"},
+]
+var liverpool =[
+{name: "Alisson", nation: "br BRA", position: "GK", squad: "Liverpool", age: "28", played: "36", goals: "0", assists: "1", nonPKgoals: "0", PKgoals: "0", expected: "0.0", nonPKexpected: "0.0", yellows: "0", reds: "0"},
+{name: "Virgil van Dijk", nation: "nl NED", position: "DF", squad: "Liverpool", age: "30", played: "34", goals: "3", assists: "1", nonPKgoals: "3", PKgoals: "0", expected: "2.5", nonPKexpected: "2.5", yellows: "3", reds: "0"},
+{name: "Trent Alexander-Arnold", nation: "eng ENG", position: "DF", squad: "Liverpool", age: "22", played: "32", goals: "2", assists: "12", nonPKgoals: "2", PKgoals: "0", expected: "2.9", nonPKexpected: "2.9", yellows: "2", reds: "0"},
+{name: "Sadio Mané", nation: "sn SEN", position: "FW", squad: "Liverpool", age: "29", played: "34", goals: "16", assists: "2", nonPKgoals: "16", PKgoals: "0", expected: "18.3", nonPKexpected: "18.3", yellows: "5", reds: "0"},
+{name: "Joël Matip", nation: "cm CMR", position: "DF", squad: "Liverpool", age: "29", played: "31", goals: "3", assists: "3", nonPKgoals: "3", PKgoals: "0", expected: "3.5", nonPKexpected: "3.5", yellows: "2", reds: "0"},
+{name: "Mohamed Salah", nation: "eg EGY", position: "FW", squad: "Liverpool", age: "29", played: "35", goals: "23", assists: "13", nonPKgoals: "18", PKgoals: "5", expected: "23.7", nonPKexpected: "18.8", yellows: "1", reds: "0"},
+{name: "Jordan Henderson", nation: "eng ENG", position: "MF", squad: "Liverpool", age: "31", played: "35", goals: "2", assists: "5", nonPKgoals: "2", PKgoals: "0", expected: "1.6", nonPKexpected: "1.6", yellows: "3", reds: "0"},
+{name: "Andrew Robertson", nation: "sct SCO", position: "DF", squad: "Liverpool", age: "27", played: "29", goals: "3", assists: "10", nonPKgoals: "3", PKgoals: "0", expected: "1.6", nonPKexpected: "1.6", yellows: "5", reds: "1"},
+{name: "Diogo Jota", nation: "pt POR", position: "FW", squad: "Liverpool", age: "24", played: "35", goals: "15", assists: "4", nonPKgoals: "15", PKgoals: "0", expected: "16.9", nonPKexpected: "16.9", yellows: "3", reds: "0"},
+{name: "Fabinho", nation: "br BRA", position: "MF", squad: "Liverpool", age: "27", played: "29", goals: "5", assists: "1", nonPKgoals: "3", PKgoals: "2", expected: "4.0", nonPKexpected: "2.5", yellows: "7", reds: "0"},
+{name: "Thiago Alcántara", nation: "es ESP", position: "MF", squad: "Liverpool", age: "30", played: "25", goals: "1", assists: "4", nonPKgoals: "1", PKgoals: "0", expected: "2.3", nonPKexpected: "2.3", yellows: "2", reds: "0"},
+{name: "Naby Keïta", nation: "gn GUI", position: "MF", squad: "Liverpool", age: "26", played: "23", goals: "3", assists: "1", nonPKgoals: "3", PKgoals: "0", expected: "2.1", nonPKexpected: "2.1", yellows: "3", reds: "0"},
+{name: "Luis Díaz", nation: "co COL", position: "FW", squad: "Liverpool", age: "24", played: "13", goals: "4", assists: "3", nonPKgoals: "4", PKgoals: "0", expected: "4.4", nonPKexpected: "4.4", yellows: "0", reds: "0"},
+{name: "Ibrahima Konaté", nation: "fr FRA", position: "DF", squad: "Liverpool", age: "22", played: "11", goals: "0", assists: "0", nonPKgoals: "0", PKgoals: "0", expected: "0.3", nonPKexpected: "0.3", yellows: "2", reds: "0"},
+{name: "Roberto Firmino", nation: "br BRA", position: "FW", squad: "Liverpool", age: "29", played: "20", goals: "5", assists: "4", nonPKgoals: "5", PKgoals: "0", expected: "5.1", nonPKexpected: "5.1", yellows: "3", reds: "0"},
+{name: "Curtis Jones", nation: "eng ENG", position: "MF", squad: "Liverpool", age: "20", played: "15", goals: "1", assists: "1", nonPKgoals: "1", PKgoals: "0", expected: "1.2", nonPKexpected: "1.2", yellows: "0", reds: "0"},
+{name: "James Milner", nation: "eng ENG", position: "MFDF", squad: "Liverpool", age: "35", played: "24", goals: "0", assists: "1", nonPKgoals: "0", PKgoals: "0", expected: "0.4", nonPKexpected: "0.4", yellows: "2", reds: "0"},
+{name: "Alex Oxlade-Chamberlain", nation: "eng ENG", position: "MFFW", squad: "Liverpool", age: "27", played: "17", goals: "2", assists: "1", nonPKgoals: "2", PKgoals: "0", expected: "1.4", nonPKexpected: "1.4", yellows: "0", reds: "0"},
+{name: "Kostas Tsimikas", nation: "gr GRE", position: "DF", squad: "Liverpool", age: "25", played: "13", goals: "0", assists: "2", nonPKgoals: "0", PKgoals: "0", expected: "0.8", nonPKexpected: "0.8", yellows: "3", reds: "0"},
+{name: "Harvey Elliott", nation: "eng ENG", position: "MF", squad: "Liverpool", age: "18", played: "6", goals: "0", assists: "0", nonPKgoals: "0", PKgoals: "0", expected: "1.1", nonPKexpected: "1.1", yellows: "0", reds: "0"},
+{name: "Joe Gomez", nation: "eng ENG", position: "DF", squad: "Liverpool", age: "24", played: "8", goals: "0", assists: "1", nonPKgoals: "0", PKgoals: "0", expected: "0.0", nonPKexpected: "0.0", yellows: "2", reds: "0"},
+{name: "Takumi Minamino", nation: "jp JPN", position: "FWMF", squad: "Liverpool", age: "26", played: "11", goals: "3", assists: "0", nonPKgoals: "3", PKgoals: "0", expected: "1.7", nonPKexpected: "1.7", yellows: "1", reds: "0"},
+{name: "Divock Origi", nation: "be BEL", position: "FW", squad: "Liverpool", age: "26", played: "7", goals: "3", assists: "0", nonPKgoals: "3", PKgoals: "0", expected: "1.4", nonPKexpected: "1.4", yellows: "0", reds: "0"}
+]
+data1= mancity.map(d=>({
+  name:d['name'],
+  value:d['goals'],
+})); 
+
+data2= liverpool.map(d=>({
+  name:d['name'],
+  value:d['goals'],
+})); 
+
+var margin = {top: 30, right: 30, bottom: 70, left: 120},
+    width = innerWidth/2 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#manc")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// X axis
+
+var x  = d3.scaleLinear()
+  .domain([0, 20])
+  .range([ 0, width]);
+
+  var y = d3.scaleBand()
+  .range([ 0, height ])
+  .domain(data1.map(function(d) { return d.name; }))
+  .padding(0.1);
+svg.append("g")
+    .call(d3.axisLeft(y));
+
+
+var svg2 = d3.select("#liv")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+// X axis
+
+var x1  = d3.scaleLinear()
+  .domain([0, 25])
+  .range([ 0, width]);
+
+  var y1 = d3.scaleBand()
+  .range([ 0, height ])
+  .domain(data2.map(function(d) { return d.name; }))
+  .padding(0.1);
+svg2.append("g")
+    .call(d3.axisLeft(y1));
+
+
+
+// A function that create / update the plot for a given variable:
+function update(choice) {
+    
+    data= mancity.map(d=>({
+  name:d['name'],
+  value:d[choice],
+}));
+
+data2= liverpool.map(d=>({
+  name:d['name'],
+  value:d[choice],
+}));
+
+// Add Y axis
+
+svg.append("g")
+.attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .style("text-anchor", "end");
+
+  var u = svg.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect")
+    .merge(u)   
+    .transition()
+    .duration(1000)
+      .attr("x", x(0))
+      .attr("y", function(d) { return y(d.name); })
+      .attr("width", function(d) { return x(d.value); })
+      .attr("height", y.bandwidth() )
+      .attr("fill", "#00cccc")
+
+//fwdf
+svg2.append("g")
+.attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x1))
+    .selectAll("text")
+      .style("text-anchor", "end");
+
+  var u2 = svg2.selectAll("rect")
+    .data(data2)
+
+  u2
+    .enter()
+    .append("rect")
+    .merge(u2)   
+    .transition()
+    .duration(1000)
+      .attr("x", x1(0))
+      .attr("y", function(d) { return y1(d.name); })
+      .attr("width", function(d) { return x1(d.value); })
+      .attr("height", y1.bandwidth() )
+      .attr("fill", "#cc0000")
+}
+
+// Initialize the plot with the first dataset
+update('goals')
+
+// The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+/*var radius = Math.min(width, height) / 2 - margin
+
+var svg = d3.select("#manc_pie")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+
+function update(choice) {
+
+data= mancity.map(d=>({
+  name:d['name'],
+  value:d[choice],
+}));
+
+console.log(data['value'])
+
+names = data.map(d=>({
+  name:d['name']
+}));
+
+var color = d3.scaleOrdinal()
+  .domain(names)
+  .range(d3.schemeSet2);
+// Compute the position of each group on the pie:
+var pie = d3.pie()
+  .value(function(d) {return d.value; })
+  .sort(function(a, b) { console.log(a) ; return d3.ascending(a.name, b.name);} ) // This make sure that group order remains the same in the pie chart
+var data_ready = pie(Object.entries(data));
+//console.log("DA"+data_ready)
+
+// map to data
+var u = svg.selectAll("path")
+  .data(data_ready)
+  u
+    .enter()
+    .append('path')
+    .merge(u)
+    .transition()
+    .duration(1000)
+    .attr('d', d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius)  
+    )
+    .attr('fill', function(d){ return(color(d.data.name)) })
+    .attr("stroke", "white")
+    .style("stroke-width", "2px")
+    .style("opacity", 1)
+
+  // remove the group that is not present anymore
+  u
+    .exit()
+    .remove()
+
+}
+
+// Initialize the plot with the first dataset
+
+update("goals")
+*/
+
+</script>
+</body>
+</html>

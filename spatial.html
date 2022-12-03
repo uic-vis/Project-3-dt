@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
+
+    <style>
+        #map { height: 480px; }
+        </style>
+
+
+</head>
+<body>
+    <a href="index.html"><button >Home</button></a>
+<h1> Spatial View</h1>
+<p><b> What information does this give us?</b><br>
+    This map shows us the locations of the stadiums across the United Kingdom where the Premier League is taking place, and shows us how the teams are more dense in tourist-y/well known areas like London.
+</p>
+
+<div id="map"></div>
+<script>
+    var teams = [
+{league_position: "1", squad: "Manchester City", points: "93", wins: "29", draws: "6", loss: "3", goals: "99", conceded: "26", goaldifference: "+73", expectedgoals: "96.6", expectedconceded: "26.0", expectedGD: "+70.5", ticketsales: "52774", latitude: "53.483135", longitude:"-2.200941"},
+{league_position: "2", squad: "Liverpool", points: "92", wins: "28", draws: "8", loss: "2", goals: "94", conceded: "26", goaldifference: "+68", expectedgoals: "95.1", expectedconceded: "37.3", expectedGD: "+57.8", ticketsales: "53352", latitude: "53.430759", longitude:"-2.961425"},
+{league_position: "3", squad: "Chelsea", points: "74", wins: "21", draws: "11", loss: "6", goals: "76", conceded: "33", goaldifference: "+43", expectedgoals: "70.7", expectedconceded: "38.3", expectedGD: "+32.5", ticketsales: "36443", latitude: "51.481834", longitude:"-0.19139"},
+{league_position: "4", squad: "Tottenham", points: "71", wins: "22", draws: "5", loss: "11", goals: "69", conceded: "40", goaldifference: "+29", expectedgoals: "66.5", expectedconceded: "45.3", expectedGD: "+21.2", ticketsales: "56523", latitude: "51.604252", longitude:"-0.067007"},
+{league_position: "5", squad: "Arsenal", points: "69", wins: "22", draws: "3", loss: "13", goals: "61", conceded: "48", goaldifference: "+13", expectedgoals: "67.3", expectedconceded: "51.2", expectedGD: "+16.0", ticketsales: "59665", latitude: "51.554867", longitude:"-0.109112"},
+{league_position: "6", squad: "Manchester Utd", points: "58", wins: "16", draws: "10", loss: "12", goals: "57", conceded: "57", goaldifference: "0", expectedgoals: "61.7", expectedconceded: "59.6", expectedGD: "+2.1", ticketsales: "73150", latitude: "53.463493", longitude:"-2.292279"},
+{league_position: "7", squad: "West Ham", points: "56", wins: "16", draws: "8", loss: "14", goals: "60", conceded: "51", goaldifference: "+9", expectedgoals: "58.0", expectedconceded: "58.1", expectedGD: "0.0", ticketsales: "58370", latitude: "51.538811", longitude:"-0.017136"},
+{league_position: "8", squad: "Leicester City", points: "52", wins: "14", draws: "10", loss: "14", goals: "62", conceded: "59", goaldifference: "+3", expectedgoals: "52.1", expectedconceded: "68.8", expectedGD: "-16.7", ticketsales: "32493", latitude: "52.62064", longitude:"-1.14277"},
+{league_position: "9", squad: "Brighton", points: "51", wins: "12", draws: "15", loss: "11", goals: "42", conceded: "44", goaldifference: "-2", expectedgoals: "53.0", expectedconceded: "49.8", expectedGD: "+3.2", ticketsales: "30966", latitude: "50.861782", longitude:"-0.084357"},
+{league_position: "10", squad: "Wolves", points: "51", wins: "15", draws: "6", loss: "17", goals: "38", conceded: "43", goaldifference: "-5", expectedgoals: "41.2", expectedconceded: "63.7", expectedGD: "-22.5", ticketsales: "30841", latitude: "52.590382", longitude:"-2.130924"},
+{league_position: "11", squad: "Newcastle Utd", points: "49", wins: "13", draws: "10", loss: "15", goals: "44", conceded: "62", goaldifference: "-18", expectedgoals: "44.4", expectedconceded: "62.4", expectedGD: "-18.0", ticketsales: "51487", llatitude: "54.97517", longitude:"-1.622539"},
+{league_position: "12", squad: "Crystal Palace", points: "48", wins: "11", draws: "15", loss: "12", goals: "50", conceded: "46", goaldifference: "+4", expectedgoals: "53.8", expectedconceded: "46.0", expectedGD: "+7.8", ticketsales: "24588", latitude: "51.398338", longitude:"-0.086084"},
+{league_position: "13", squad: "Brentford", points: "46", wins: "13", draws: "7", loss: "18", goals: "48", conceded: "56", goaldifference: "-8", expectedgoals: "51.1", expectedconceded: "54.0", expectedGD: "-2.8", ticketsales: "16918", latitude: "51.490715", longitude:"-0.289048"},
+{league_position: "14", squad: "Aston Villa", points: "45", wins: "13", draws: "6", loss: "19", goals: "52", conceded: "54", goaldifference: "-2", expectedgoals: "47.9", expectedconceded: "54.4", expectedGD: "-6.5", ticketsales: "41681", latitude: "52.50909", longitude:"-1.885249"},
+{league_position: "15", squad: "Southampton", points: "40", wins: "9", draws: "13", loss: "16", goals: "43", conceded: "67", goaldifference: "-24", expectedgoals: "49.9", expectedconceded: "63.3", expectedGD: "-13.4", ticketsales: "30134", latitude: "50.906052", longitude:"-1.391692"},
+{league_position: "16", squad: "Everton", points: "39", wins: "11", draws: "6", loss: "21", goals: "43", conceded: "66", goaldifference: "-23", expectedgoals: "47.5", expectedconceded: "60.9", expectedGD: "-13.4", ticketsales: "38446", latitude: "53.438751", longitude:"-2.966681"},
+{league_position: "17", squad: "Leeds United", points: "38", wins: "9", draws: "11", loss: "18", goals: "42", conceded: "79", goaldifference: "-37", expectedgoals: "50.4", expectedconceded: "73.2", expectedGD: "-22.8", ticketsales: "36308", latitude: "53.777782", longitude:"-1.573049"},
+{league_position: "18", squad: "Burnley", points: "35", wins: "7", draws: "14", loss: "17", goals: "34", conceded: "53", goaldifference: "-19", expectedgoals: "43.8", expectedconceded: "63.8", expectedGD: "-20.0", ticketsales: "19278", latitude: "53.789108", longitude:"-2.230575"},
+{league_position: "19", squad: "Watford", points: "23", wins: "6", draws: "5", loss: "27", goals: "34", conceded: "77", goaldifference: "-43", expectedgoals: "44.3", expectedconceded: "72.6", expectedGD: "-28.2", ticketsales: "20614", latitude: "51.649906", longitude:"-0.402061"},
+{league_position: "20", squad: "Norwich City", points: "22", wins: "5", draws: "7", loss: "26", goals: "23", conceded: "84", goaldifference: "-61", expectedgoals: "35.7", expectedconceded: "82.3", expectedGD: "-46.6", ticketsales: "26836", latitude: "52.622234", longitude:"1.308621"},
+]
+
+var geojsonFeature1 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Manchester City",
+        "popupContent": "Etihhad Stadium where the Champions of England, Manchester City play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-2.200941, 53.483135]
+    }
+};
+var geojsonFeature2 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Liverpool",
+        "popupContent": "Anfield of Liverpool"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-2.961425, 53.430759]
+    }
+};
+var geojsonFeature3 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Chelsea",
+        "popupContent": "Stamford Bridge of Chelsea"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -0.19139 ,51.481834]
+    }
+};var geojsonFeature4 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Tottenham",
+        "popupContent": "Tottenham Hotspur Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-0.067007 ,51.604252]
+    }
+};
+var geojsonFeature5 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Arsenal",
+        "popupContent": "Emirates Stadium of Arsenal"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-0.109112 , 51.554867]
+    }
+};
+var geojsonFeature6 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Manchester Utd",
+        "popupContent": "Manchester United's Old Trafford"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [  -2.292279, 53.463493,]
+    }
+};
+var geojsonFeature7 = {
+    "type": "Feature",
+    "properties": {
+        "name": "West Ham",
+        "popupContent": "West Ham's London Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -0.017136, 51.538811 ]
+    }
+};
+var geojsonFeature8 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Leicester City",
+        "popupContent": "Leicester City's King Power Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-1.14277 , 52.62064 ]
+    }
+};
+var geojsonFeature9 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Brighton",
+        "popupContent": "Brighton's Amex Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-0.084357, 50.861782 ]
+    }
+};
+var geojsonFeature10 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Wolves",
+        "popupContent": "Wolves Molineux Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -2.130924, 52.590382]
+    }
+};
+var geojsonFeature11 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Newcastle Utd",
+        "popupContent": "St. James Park of Newcastle united"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [  -1.622539, 54.97517]
+    }
+};
+var geojsonFeature12 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Crystal Palace",
+        "popupContent": "Selhurst Park of Crystal Palace"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [  -0.086084, 51.398338]
+    }
+};
+var geojsonFeature13 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Brentford",
+        "popupContent": "Brentford Community Stadium"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [  -0.289048, 51.490715]
+    }
+};
+var geojsonFeature14 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Aston Villa",
+        "popupContent": "Villa Park of Aston Villa"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [  -1.885249, 52.50909]
+    }
+};
+var geojsonFeature15 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Southampton",
+        "popupContent": "Southampton's Stadium of Light "
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -1.391692, 50.906052]
+    }
+};
+var geojsonFeature16 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Everton",
+        "popupContent": "Everton's Goodison Park "
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -2.966681, 53.438751]
+    }
+};
+var geojsonFeature17 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Leeds United",
+        "popupContent": "Leeds United's Elland Road"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -1.573049, 53.777782 ]
+    }
+};
+var geojsonFeature18 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Burnley",
+        "popupContent": "Burnley's Turf Moor "
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -2.230575, 53.789108]
+    }
+};
+var geojsonFeature19 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Watford",
+        "popupContent": "Watford's Vicerage Road"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -0.402061, 51.649906]
+    }
+};
+var geojsonFeature20 = {
+    "type": "Feature",
+    "properties": {
+        "name": "Norwich City",
+        "popupContent": "Carrow Road of Norwich City"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ 1.308621, 52.622234]
+    }
+};
+
+var someFeatures = [geojsonFeature1, geojsonFeature2, geojsonFeature3, geojsonFeature4, geojsonFeature5, geojsonFeature6, geojsonFeature7, geojsonFeature8, geojsonFeature9, geojsonFeature10, geojsonFeature11, geojsonFeature12, geojsonFeature13, geojsonFeature14, geojsonFeature15, geojsonFeature16, geojsonFeature17, geojsonFeature18, geojsonFeature19, geojsonFeature20];
+var map = L.map('map').setView([51.505, -0.09], 6);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 15,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.popupContent) {
+        layer.bindPopup(feature.properties.popupContent);
+    }
+}
+
+L.geoJSON(someFeatures, {
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
