@@ -30,23 +30,26 @@ The domain for asking questions for this dataset was on **player performance** a
 **Q1**. What was the distribution across the top 20 players in goal contributions (Goals + Assists), and also see if there's overlap in players (For Example, Salah was the top goal scorer and one of the top players in assists so he will cause an overlap).
 
 Interactive ScatterPlot with respect to top 20 players with most goals.
+  
 [![fig1](https://github.com/txnveer/datavis-images/blob/main/scat.png "fig1")](https://github.com/txnveer/datavis-images/blob/main/scat.png "fig1")
 
 Interactive ScatterPlot with respect to top 20 players with most assists.
+  
 [![fig 2](https://github.com/txnveer/datavis-images/blob/main/scat2.PNG "fig 2")](https://github.com/txnveer/datavis-images/blob/main/scat2.PNG "fig 2")
 
 Interactive ScatterPlot with respect to top 20 players with most penalty goals.
 
 [![fig3](https://github.com/txnveer/datavis-images/blob/main/scat3.PNG "fig3")](https://github.com/txnveer/datavis-images/blob/main/scat3.PNG "fig3")
+  
 Interactive ScatterPlot with respect to top 20 players with most goals then assists.
 
 [![fig 4](https://github.com/txnveer/datavis-images/blob/main/scat4.PNG "fig 4")](https://github.com/txnveer/datavis-images/blob/main/scat4.PNG "fig 4")
+  
 Interactive ScatterPlot with respect to top 20 players with most goals, assists and then penalty goals.
+  
 [![fig 5](https://github.com/txnveer/datavis-images/blob/main/scat4%2B5.PNG "fig 5")](https://github.com/txnveer/datavis-images/blob/main/scat4%2B5.PNG "fig 5")
 
 To get the input for which attribute we wish to do visualization, I used a buttons so that the user can click and look which attribute he wants to do the visualization on, I also added a RESET button if the user wanted to look at different transitions or see how the visualization develops on each different click. 
-
-<div style="text-align: center;">[![r](https://github.com/txnveer/datavis-images/blob/main/reset.PNG "r")](https://github.com/txnveer/datavis-images/blob/main/reset.PNG "r")</div>
 
 For Example, I can look at the top 20 players with the most **Goals → Assists →Penalty Goals**, or **Penalty Goals  →Assists →Goals**, or **Assists →Penalty**. And reset to an empty plot when clicked on **RESET**
 
@@ -58,15 +61,19 @@ For Example, I can look at the top 20 players with the most **Goals → Assists 
 Bar Chart Visualization Used to Analyze the Team Stats
 
 Bar Chart based on amount of points
+  
 [![b1](https://github.com/txnveer/datavis-images/blob/main/bar1.PNG "b1")](https://github.com/txnveer/datavis-images/blob/main/bar1.PNG "b1")
 
 Bar Chart based on amount of goals scored
+  
 [![b2](https://github.com/txnveer/datavis-images/blob/main/bar2.PNG "b2")](https://github.com/txnveer/datavis-images/blob/main/bar2.PNG "b2")
 
 Bar Chart based on amount of goals conceded
+  
 [![b3](https://github.com/txnveer/datavis-images/blob/main/bar3.PNG "b3")](https://github.com/txnveer/datavis-images/blob/main/bar3.PNG "b3")
 
 Bar Chart based on average attendance/ticket sales
+  
 [![b4](https://github.com/txnveer/datavis-images/blob/main/bar4.PNG "b4")](https://github.com/txnveer/datavis-images/blob/main/bar4.PNG "b4")
 
 To get the input for which attribute we wish to do visualization, we used a radio input, which when selected, we get a bar chart based on that visualization. Here I also kept them in the same order where they finished in the table, so we can quickly compare between different attributes selected.
@@ -76,14 +83,20 @@ The information provided by this visualization was that the teams that had a bet
 Average ticket-sales/attendance was interesting to see, as Manchester United still had the highest amount despite not playing ‘well’. Manchester City and Liverpool were 5th and 6th despite performing extremely well, this is more likely to do with the stadium capacity of the teams. But it’s still interesting to see that fans will buy tickets even if their team is not playing up to their standard. This answers our questions in Q2.
 
 ### Visualization 3
-**Q3**.For this, I wanted to compare between the players of the top 2 teams of the 2021/22 season, namely Manchester City and Liverpool. 
+**Q3**.Can you see trends and differences among the players of the two teams?
+
+For this, I wanted to compare between the players of the top 2 teams of the 2021/22 season, namely Manchester City and Liverpool. 
+  
 Goals
+  
 [![v1](https://github.com/txnveer/datavis-images/blob/main/m1.PNG "v1")](https://github.com/txnveer/datavis-images/blob/main/m1.PNG "v1")
 
 Expected
+  
 [![v2](https://github.com/txnveer/datavis-images/blob/main/m2.png "v2")](https://github.com/txnveer/datavis-images/blob/main/m2.png "v2")
 
 Yellow Cards
+  
 [![v3](https://github.com/txnveer/datavis-images/blob/main/m3.PNG "v3")](https://github.com/txnveer/datavis-images/blob/main/m3.PNG "v3")
 
 I have implemented this multiple visualization based on 7 attributes, namely Goals, Assists, Penalty Goals, Non-Penalty Goals, Expected Goals, Yellow Card and Red Cards.
